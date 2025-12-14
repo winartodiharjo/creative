@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winarto Diharjo - Creative Portfolio</title>
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #e8eaf0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* --- 1. GAMBAR OTAK (BRAIN) & JUDUL GLITCH --- */
+        .brain-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+
+        .brain-img {
+            width: 100%;
+            height: auto;
+            filter: grayscale(100%) contrast(120%);
+            animation: shake 2.5s infinite;
+        }
+
+        .glitch-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .glitch-title::before, .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #e8eaf0;
+        }
+
+        .glitch-title::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-title::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        /* --- 3. MENU NAVIGASI --- */
+        .subtitle-menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle-menu a {
+            text-decoration: none;
+            color: #333;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+            cursor: pointer; /* Menandakan ini adalah tombol interaktif */
+        }
+
+        .subtitle-menu a:hover {
+            border: 1px solid #333;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .separator {
+            display: inline-block;
+            padding-top: 5px;
+        }
+
+        /* --- 4. FOOTER LINK --- */
+        .footer-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .fingerprint-icon {
+            width: 40px;
+            height: 40px;
+            fill: #00e676;
+            background: #333;
+            border-radius: 50%;
+            padding: 5px;
+            transition: transform 0.3s ease, fill 0.3s ease;
+        }
+
+        .footer-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-link:hover .fingerprint-icon {
+            fill: #00fff9;
+            transform: scale(1.1);
+            background: #000;
+        }
+
+        .footer-link:hover .footer-name {
+            color: #000;
+        }
+
+        /* --- 5. MODAL / KOTAK DIALOG (NEW) --- */
+        .modal {
+            display: none; /* Default tersembunyi */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8); /* Background gelap transparan */
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            color: #00e676; /* Warna teks hijau neon */
+            margin: 15% auto; /* Jarak dari atas dan tengah */
+            padding: 30px;
+            border: 3px solid #00fff9; /* Border biru cyan */
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            animation: popUp 0.3s;
+            text-align: left;
+        }
+
+        .modal-content h3 {
+            border-bottom: 2px dashed #ff00c1; /* Garis bawah merah muda glitch */
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .modal-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .modal-content ul li {
+            margin-bottom: 5px;
+        }
+
+        .close-btn {
+            color: #ff00c1;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        /* (Keyframes glitch-anim, glitch-anim2, shake tetap sama) */
+
+        /* ... (sisa keyframes dan media query tetap sama) */
+
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 52px, 0); transform: skew(0.5deg); }
+            5% { clip: rect(34px, 9999px, 89px, 0); transform: skew(0.5deg); }
+            10% { clip: rect(8px, 9999px, 20px, 0); transform: skew(0.5deg); }
+            15% { clip: rect(56px, 9999px, 92px, 0); transform: skew(0.5deg); }
+            20% { clip: rect(23px, 9999px, 11px, 0); transform: skew(0.5deg); }
+            25% { clip: rect(78px, 9999px, 64px, 0); transform: skew(0.5deg); }
+            30% { clip: rect(12px, 9999px, 34px, 0); transform: skew(0.5deg); }
+            35% { clip: rect(45px, 9999px, 56px, 0); transform: skew(0.5deg); }
+            40% { clip: rect(90px, 9999px, 12px, 0); transform: skew(0.5deg); }
+            100% { clip: rect(67px, 9999px, 89px, 0); transform: skew(0.5deg); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0.5deg); }
+            20% { clip: rect(10px, 9999px, 35px, 0); transform: skew(0.5deg); }
+            40% { clip: rect(85px, 9999px, 15px, 0); transform: skew(0.5deg); }
+            60% { clip: rect(25px, 9999px, 60px, 0); transform: skew(0.5deg); }
+            80% { clip: rect(50px, 9999px, 80px, 0); transform: skew(0.5deg); }
+            100% { clip: rect(15px, 9999px, 45px, 0); transform: skew(0.5deg); }
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="brain-container">
+            <img src="brain.png" alt="Brain AI Circuit" class="brain-img">
+        </div>
+
+        <div class="glitch-title" data-text="CREATIVE">CREATIVE</div>
+
+        <div class="subtitle-menu">
+            <a data-modal-target="pemrograman-modal">PEMROGRAMAN</a>
+            <span class="separator">,</span>
+            <a data-modal-target="multimedia-modal">MULTIMEDIA</a>
+            <span class="separator">,</span>
+            <a data-modal-target="jaringan-modal">JARINGAN KOMPUTER</a>
+        </div>
+
+        <a href="https://winartodiharjo.github.io/cv" target="_blank" class="footer-link">
+            <svg class="fingerprint-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.32.44-.19.68.13.24.44.32.68.19C8.55 4.38 10.18 4 12.01 4c1.6 0 3.03.37 4.54 1.3.23.14.53.07.67-.16.14-.23.07-.53-.16-.67zm-3.71 11.16c-.49-.41-1.22-.52-1.7-.56-.16-.01-.32.06-.43.18-.34.38-.63.81-.88 1.26-.2.37-.39.77-.55 1.18-.09.22-.16.45-.23.67-.16.49-.24.77-.55 1.17-.37.47-.94.75-1.54.75-.98 0-1.77-.79-1.77-1.76 0-1.42 1.38-4.7 3.4-6.31.57-.45 1.22-.76 1.94-.89.5-.09 1.02-.09 1.55.02.73.15 1.39.51 1.9.99.7.67 1.1 1.62 1.1 2.65 0 2.37-1.93 4.3-4.3 4.3-1.63 0-3.07-.93-3.8-2.31-.03-.06-.11-.08-.16-.05-.4.22-.82.41-1.26.55-.07.02-.13-.04-.11-.1 1.48-5.32 4.1-9.51 8.35-11.45.19-.09.27-.32.18-.51-.09-.19-.32-.27-.51-.18-4.66 2.12-7.53 6.69-9.15 12.53-.02.09.05.18.14.19.46.03.92.03 1.36-.01.07-.01.12-.06.13-.13.24-1.93.99-3.76 2.07-5.28 1.09-1.53 2.58-2.67 4.32-3.14.28-.08.57-.12.86-.12.44 0 .88.08 1.29.25 1.15.48 1.83 1.48 1.83 2.72 0 1.2-.67 2.12-1.8 2.35-.41.08-.85.06-1.28-.15z"/>
+            </svg>
+            <div class="footer-name">winartodiharjo</div>
+        </a>
+    </div>
+
+    <div id="pemrograman-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>[ PEMROGRAMAN ]</h3>
+            <p><strong>Fokus Keahlian:</strong></p>
+            <ul>
+                <li>> Web Development (Fullstack)</li>
+                <li>> Mobile App Logic</li>
+                <li>> Data Structuring & Algorithm</li>
+            </ul>
+            <p><em>-- System Ready. Execute command?</em></p>
+        </div>
+    </div>
+
+    <div id="multimedia-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>[ MULTIMEDIA ]</h3>
+            <p><strong>Area Kreatif:</strong></p>
+            <ul>
+                <li>> Video Editing & Motion Graphics</li>
+                <li>> Digital Imaging / Photo Editing</li>
+                <li>> UI/UX Design (Wireframing)</li>
+            </ul>
+            <p><em>-- Assets Loaded. Begin rendering.</em></p>
+        </div>
+    </div>
+
+    <div id="jaringan-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>[ JARINGAN KOMPUTER ]</h3>
+            <p><strong>Kompetensi Teknis:</strong></p>
+            <ul>
+                <li>> Network Configuration (Cisco/MikroTik)</li>
+                <li>> Server Administration (Linux)</li>
+                <li>> Cybersecurity Fundamentals</li>
+            </ul>
+            <p><em>-- Connection Stable. Bandwidth optimized.</em></p>
+        </div>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT UNTUK MODAL ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalButtons = document.querySelectorAll('[data-modal-target]');
+            const closeButtons = document.querySelectorAll('.close-btn');
+            const modals = document.querySelectorAll('.modal');
+
+            // 1. FUNGSI UNTUK MEMBUKA MODAL
+            modalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-modal-target');
+                    const modal = document.getElementById(targetId);
+                    if (modal) {
+                        modal.style.display = 'block';
+                    }
+                });
+            });
+
+            // 2. FUNGSI UNTUK MENUTUP MODAL DENGAN TOMBOL (X)
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Mendapatkan modal terdekat dari tombol close
+                    const modal = button.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // 3. FUNGSI UNTUK MENUTUP MODAL JIKA KLIK DI LUAR KOTAK
+            window.addEventListener('click', (event) => {
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
